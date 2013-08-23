@@ -21,7 +21,7 @@ for curstep in range(0, len(samples)-1):
             print(Fore.RED + output)
         else:
             print(Fore.RESET + output)
-    sleep(0.15)
+    sleep(0.25)
     lowest = curstep
     for i in range(curstep+1, len(samples)):
         os.system('cls' if os.name=='nt' else 'clear')
@@ -31,7 +31,7 @@ for curstep in range(0, len(samples)-1):
                 print(Fore.GREEN + output)
             else:
                 print(Fore.RESET + output)
-        sleep(0.05)
+        sleep(0.02)
         if samples[i] < samples[lowest]:
             lowest = i
     if i != curstep:
