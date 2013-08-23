@@ -31,7 +31,7 @@ for curstep in range(0, len(samples)-1):
                 print(Fore.GREEN + output)
             else:
                 print(Fore.RESET + output)
-        sleep(0.02)
+        sleep(0.05)
         if samples[i] < samples[lowest]:
             lowest = i
     if i != curstep:
