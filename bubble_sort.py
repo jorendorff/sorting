@@ -1,36 +1,22 @@
 import random
-import os
-from time import sleep
+from sorter import Sorter
+from console import ConsolePrinter
 
-from colorama import init, Fore
-init()
+class BubbleSort(Sorter):
+    def sort(self):
+        for curstep in range(len(self.data)-1, 0, -1):
+            for i in range(curstep):
+                self.notify(self.data, [i], [0, curstep])
+                if self.data[i] < self.data[i +1]:
+                    self.data[i], self.data[i+1] = self.data[i+1], self.data[i]
 
-num_list = range(0, 100)
+        self.notify(self.data)
 
-samples = random.shuffle(num_list)
-samples = random.shuffle(num_list)
+if __name__ == '__main__':
+    num_list = range(0, 100)
+    samples = random.sample(num_list, 40)
 
-samples = random.sample(num_list, 40)
-print samples
-
-for curstep in range(len(samples)-1, 0, -1):
-    os.system('cls' if os.name=='nt' else 'clear')
-    for idx, sample in enumerate(samples):
-        output = '{0}, {1}'.format(sample, sample*'|')
-        if idx == curstep:
-            print(Fore.RED + output)
-        else:
-            print(Fore.RESET + output)
-    sleep(0.15)
-    for i in range(curstep):
-        os.system('cls' if os.name=='nt' else 'clear')
-        for idxx in (range(curstep)):
-            output = '{0}, {1}'.format(samples[idxx], samples[idxx]*'|')
-            if i == idxx:
-                print(Fore.GREEN + output)
-            else:
-                print(Fore.RESET + output)
-        sleep(0.05)
-        if samples[i] < samples[i +1]:
-            samples[i], samples[i+1] = samples[i+1], samples[i]
-print samples
+    printer = ConsolePrinter()
+    bubble_sort = BubbleSort(samples)
+    bubble_sort.registerObserver(printer)
+    bubble_sort.sort()

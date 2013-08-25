@@ -1,39 +1,27 @@
 import random
-import os
-from time import sleep
+from console import ConsolePrinter
+from sorter import Sorter
 
-from colorama import init, Fore
-init()
+class SelectionSort(Sorter):
+    def sort(self):
+        for curstep in range(0, len(self.data)-1):
+            lowest = curstep
+            for i in range(curstep+1, len(self.data)):
+                self.notify(self.data, [i], [curstep, len(self.data) - 1])
+                if self.data[i] < self.data[lowest]:
+                    lowest = i
+        
+            if i != curstep:
+                self.data[curstep], self.data[lowest] = self.data[lowest], self.data[curstep]
 
-num_list = range(0, 100)
+        self.notify(self.data)
 
-samples = random.shuffle(num_list)
-samples = random.shuffle(num_list)
+if __name__ == '__main__':
+    num_list = range(0, 100)
+    samples = random.sample(num_list, 40)
 
-samples = random.sample(num_list, 40)
-print samples
+    printer = ConsolePrinter()
+    selection = SelectionSort(samples)
+    selection.registerObserver(printer)
+    selection.sort()
 
-for curstep in range(0, len(samples)-1):
-    os.system('cls' if os.name=='nt' else 'clear')
-    for idx in range(0, len(samples)-1):
-        output = '{0}, {1}'.format(samples[idx], samples[idx]*'|')
-        if idx == curstep:
-            print(Fore.RED + output)
-        else:
-            print(Fore.RESET + output)
-    sleep(0.25)
-    lowest = curstep
-    for i in range(curstep+1, len(samples)):
-        os.system('cls' if os.name=='nt' else 'clear')
-        for idxx in range(0, len(samples)-1):
-            output = '{0}, {1}'.format(samples[idxx], samples[idxx]*'|')
-            if i == idxx:
-                print(Fore.GREEN + output)
-            else:
-                print(Fore.RESET + output)
-        sleep(0.05)
-        if samples[i] < samples[lowest]:
-            lowest = i
-    if i != curstep:
-        samples[curstep], samples[lowest] = samples[lowest], samples[curstep]
-print samples
