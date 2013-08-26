@@ -1,42 +1,31 @@
-import random
-from sorter import Sorter
-from console import ConsolePrinter
+def quicksort(data):
+    def f(start, stop):
+        if stop - start < 2:
+            return  # nothing to do
+        pivot = data[stop - 1]
 
-class QuickSort(Sorter):
-    def sort(self):
-        self._quicksort(0, len(self.data) - 1)
-        self.notify(self.data)
+        # Split data[start:stop] into two piles,
+        # those above the pivot and those below.
+        i = start
+        j = stop - 1
+        while i < j:
+            item = data[i]
+            if item >= pivot:
+                j -= 1
+                data[i] = data[j]
+                data[j] = item
+            else:
+                i += 1
 
-    def _partition(self, left, right, pivot):
-        pivotValue = self.data[pivot]
-        self._swap(right, pivot)
- 
-        store = left
-        for idx in range(left, right):
-            if self.data[idx] < pivotValue:
-                self._swap(idx, store)
-                store += 1
-                self.notify(self.data, [idx], [left, right - 1])
- 
-        self._swap(store, right)
-        return store
+        # Swap the pivot to the middle.
+        data[stop - 1] = data[i]
+        data[i] = pivot
 
-    def _quicksort(self, left, right):
-        if right > left:
-            pivot = random.randint(left, right)
-            pivot = self._partition(left, right, pivot)
-            self._quicksort(left, pivot)
-            self._quicksort(pivot + 1, right)
-
-
-    def _swap(self, left, right):
-        self.data[left], self.data[right] = self.data[right], self.data[left]
+        # Sort the halves and we're done.
+        f(start, i)
+        f(i + 1, stop)
+    f(0, len(data))
 
 if __name__ == '__main__':
-    num_list = range(0, 100)
-    samples = random.sample(num_list, 40)
-
-    printer = ConsolePrinter()
-    quick_sort = QuickSort(samples)
-    quick_sort.registerObserver(printer)
-    quick_sort.sort()
+    import animation
+    animation.play_sorting_movie(quicksort)

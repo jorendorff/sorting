@@ -1,31 +1,14 @@
-import random
-from console import ConsolePrinter
-from sorter import Sorter
+def insertion_sort(data):
+    for j in range(1, len(data)):
+        i = j - 1
+        value = data[j]
 
-class InsertionSort(Sorter):
-    def sort(self):
-        j = 1
-        data_size = len(self.data)
+        while i >= 0 and data[i] > value:
+            data[i + 1] = data[i]
+            i -= 1
 
-        while j < data_size:
-            index = j - 1
-            value = self.data[j]
-
-            while index >= 0 and self.data[index] > value:
-                self.notify(self.data, [index], [j, 0])
-                self.data[index + 1] = self.data[index]
-                index -= 1
-                
-            self.data[index + 1] = value
-            j += 1
-
-        self.notify(self.data)
+        data[i + 1] = value
 
 if __name__ == '__main__':
-    num_list = range(0, 100)
-    samples = random.sample(num_list, 40)
-
-    printer = ConsolePrinter()
-    insertion_sort = InsertionSort(samples)
-    insertion_sort.registerObserver(printer)
-    insertion_sort.sort()
+    import animation
+    animation.play_sorting_movie(insertion_sort)
